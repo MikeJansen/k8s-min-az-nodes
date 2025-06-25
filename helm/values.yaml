@@ -1,0 +1,28 @@
+app:
+  labelPrefix: cr0w.co
+
+image:
+  repository: ""
+  name: idle
+  tag: latest
+  pullPolicy: Always
+
+replicaCount: 3
+
+resources:
+  requests:
+    cpu: 10m
+    memory: 16Mi
+  limits:
+    cpu: 10m
+    memory: 16Mi
+
+priority:
+  className: high-priority-idle-app
+  value: 1000
+
+
+security:
+  runAsUser: 65534
+  runAsGroup: 65534
+  fsGroup: 65534
