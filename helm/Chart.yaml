@@ -2,5 +2,5 @@ apiVersion: v2
 name: min-nodes
 description: Keeps a minimum of 1 node available for each Availability Zone
 type: application
-version: 0.2.0
-appVersion: "0.2.0"
+version: 0.2.1
+appVersion: "0.2.3"
