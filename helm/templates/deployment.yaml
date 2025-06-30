@@ -35,6 +35,7 @@ spec:
               matchLabels:
                 app: {{ .Values.app.labelPrefix }}/{{ .Release.Name }}
             topologyKey: topology.kubernetes.io/zone
+      terminationGracePeriodSeconds: 30
       securityContext:
         runAsNonRoot: true
         runAsUser: {{ .Values.security.runAsUser }}
@@ -74,4 +75,3 @@ spec:
           limits:
             cpu: {{ .Values.resources.limits.cpu }}
             memory: {{ .Values.resources.limits.memory }}
-        terminationGracePeriodSeconds: 30
