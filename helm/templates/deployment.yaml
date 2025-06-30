@@ -3,16 +3,16 @@ kind: Deployment
 metadata:
   name: {{ .Release.Name }}
   labels:
-    app: {{ .Values.app.labelPrefix }}/{{ .Release.Name }}
+    app: {{ .Values.app.labelPrefix }}-{{ .Release.Name }}
 spec:
   replicas: {{ .Values.replicaCount }}
   selector:
     matchLabels:
-      app: {{ .Values.app.labelPrefix }}/{{ .Release.Name }}
+      app: {{ .Values.app.labelPrefix }}-{{ .Release.Name }}
   template:
     metadata:
       labels:
-        app: {{ .Values.app.labelPrefix }}/{{ .Release.Name }}
+        app: {{ .Values.app.labelPrefix }}-{{ .Release.Name }}
     spec:
       priorityClassName: {{ .Values.priority.className }}
       topologySpreadConstraints:
@@ -21,19 +21,19 @@ spec:
         whenUnsatisfiable: DoNotSchedule
         labelSelector:
           matchLabels:
-            app: {{ .Values.app.labelPrefix }}/{{ .Release.Name }}
+            app: {{ .Values.app.labelPrefix }}-{{ .Release.Name }}
       - maxSkew: 1
         topologyKey: kubernetes.io/hostname
         whenUnsatisfiable: ScheduleAnyway
         labelSelector:
           matchLabels:
-            app: {{ .Values.app.labelPrefix }}/{{ .Release.Name }}
+            app: {{ .Values.app.labelPrefix }}-{{ .Release.Name }}
       affinity:
         podAntiAffinity:
           requiredDuringSchedulingIgnoredDuringExecution:
           - labelSelector:
               matchLabels:
-                app: {{ .Values.app.labelPrefix }}/{{ .Release.Name }}
+                app: {{ .Values.app.labelPrefix }}-{{ .Release.Name }}
             topologyKey: topology.kubernetes.io/zone
       terminationGracePeriodSeconds: 30
       securityContext:

@@ -3,9 +3,9 @@ kind: PodDisruptionBudget
 metadata:
   name: {{ .Release.Name }}-pdb
   labels:
-    app: {{ .Values.app.labelPrefix }}/{{ .Release.Name }}
+    app: {{ .Values.app.labelPrefix }}-{{ .Release.Name }}
 spec:
   minAvailable: {{ sub .Values.replicaCount 1 }}
   selector:
     matchLabels:
-      app: {{ .Values.app.labelPrefix }}/{{ .Release.Name }}
+      app: {{ .Values.app.labelPrefix }}-{{ .Release.Name }}
