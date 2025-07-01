@@ -111,20 +111,11 @@ CHART_NAME=$(grep "^name:" "$CHART_FILE" | cut -d' ' -f2)
 echo "Packaging chart..."
 helm package "$CHART_PATH"
 
-# Get GitHub username from git config or environment
-GITHUB_USER=${GITHUB_USER:-$(git config user.name)}
-if [ -z "$GITHUB_USER" ]; then
-  echo "Error: GITHUB_USER not set and git user.name not configured"
-  echo "Set GITHUB_USER environment variable or configure git user.name"
-  exit 1
-fi
-
-# Convert to lowercase for GitHub Container Registry
-GITHUB_USER_LOWER=$(echo "$GITHUB_USER" | tr '[:upper:]' '[:lower:]')
+REPO_OWNER=$(gh repo view --json nameWithOwner --jq .nameWithOwner|sed -E 's|(.*)/.*$|\1|'|tr '[:upper:]' '[:lower:]')
 
 # Push to GitHub Container Registry
 PACKAGE_FILE="${CHART_NAME}-${NEW_VERSION}.tgz"
-REGISTRY_URL="oci://ghcr.io/${GITHUB_USER_LOWER}"
+REGISTRY_URL="oci://ghcr.io/${REPO_OWNER}"
 
 echo "Pushing chart to $REGISTRY_URL..."
 helm push "$PACKAGE_FILE" "$REGISTRY_URL"
